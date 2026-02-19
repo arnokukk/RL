@@ -1,0 +1,43 @@
+# Project: rl-test
+# Makefile created by Dev-C++ 5.11
+
+CPP      = g++.exe
+CC       = gcc.exe
+WINDRES  = windres.exe
+OBJ      = main.o geometry.o prints.o test_geometry.o console.o test_console.o
+LINKOBJ  = main.o geometry.o prints.o test_geometry.o console.o test_console.o
+LIBS     = -L"S:/dev-cpp/MinGW64/lib" -L"S:/dev-cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc
+INCS     = -I"S:/dev-cpp/MinGW64/include" -I"S:/dev-cpp/MinGW64/x86_64-w64-mingw32/include" -I"S:/dev-cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
+CXXINCS  = -I"S:/dev-cpp/MinGW64/include" -I"S:/dev-cpp/MinGW64/x86_64-w64-mingw32/include" -I"S:/dev-cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"S:/dev-cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
+BIN      = rl-test.exe
+CXXFLAGS = $(CXXINCS) -std=c++11 -Wall -Werror
+CFLAGS   = $(INCS) -std=c++11 -Wall -Werror
+RM       = rm.exe -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CPP) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+main.o: main.cpp
+	$(CPP) -c main.cpp -o main.o $(CXXFLAGS)
+
+geometry.o: geometry.cpp
+	$(CPP) -c geometry.cpp -o geometry.o $(CXXFLAGS)
+
+prints.o: prints.cpp
+	$(CPP) -c prints.cpp -o prints.o $(CXXFLAGS)
+
+test_geometry.o: test_geometry.cpp
+	$(CPP) -c test_geometry.cpp -o test_geometry.o $(CXXFLAGS)
+
+console.o: console.cpp
+	$(CPP) -c console.cpp -o console.o $(CXXFLAGS)
+
+test_console.o: test_console.cpp
+	$(CPP) -c test_console.cpp -o test_console.o $(CXXFLAGS)
