@@ -96,12 +96,6 @@ namespace
 
 namespace
 {
-  SMALL_RECT winSmallRect(const Console_NS::Rect& rect)
-  {
-    SMALL_RECT sr{rect.tl.x, rect.tl.y, rect.br.x, rect.br.y};
-    return sr;
-  }
-  
   HWND _getConsoleHWND()
   {
     const int SIZE = 1024;
@@ -188,11 +182,5 @@ namespace Console_NS
   {
     if (this->m_window == NULL) return false;
     return ::SetWindowPos(m_window, NULL, 0, 0, width, heigth, SWP_NOZORDER);
-  }
-  
-  void Console::resizeWindow(const Rect& rect)
-  {
-    auto sr = winSmallRect(rect);
-    SetConsoleWindowInfo(this->m_console, true, &sr);
   }
 }

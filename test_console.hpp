@@ -7,9 +7,7 @@ namespace Test_NS
   void testManResize();
   void testClearScreen();
   void testGetch();
-  void testWinResize(short w, short h);
-  
-  void test_setTopWinSize(short w, short h);
+  void testWinResize(int w=1920, int h=1080);
   
   void testConsole();
 }

@@ -28,8 +28,8 @@ namespace Console_NS
       ScreenBufferInfo getScreenBufferInfo() const;
       void clearScreen(char filler=' ');
       int getChar();
-      bool           setWinSize(int width, int height);
-      void resizeWindow(const Rect& rectangle);
+      bool setWinSize(int width, int height);
+      bool maximizeWin() { return ::ShowWindow(m_window, SW_MAXIMIZE); }
     
     private:
       HANDLE m_console = NULL;

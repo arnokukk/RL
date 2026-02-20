@@ -1,11 +1,11 @@
 #include "test_console.hpp"
 
+#include "console.hpp"
+#include "prints.hpp"
+
 #include <conio.h>
 #include <iostream>
 
-#include "console.hpp"
-//#include "geometry.hpp"
-#include "prints.hpp"
 
 namespace Test_NS
 {
@@ -49,29 +49,21 @@ namespace Test_NS
     std::cout << "\tkey " << got << " pressed (" << (char)got << ")" << std::endl;
   }
   
-  void testWinResize(short w, short h)
+  void testWinResize(int w/*=1920*/, int h/*=1080*/)
   {
-    Console con;
-    std::cout << "Window resize test:" << std::endl;
-    std::cout << "\tbefore: " << toString(con.getScreenBufferInfo()) << std::endl;
-    std::cout << "\tPress any key to resize window..." << std::endl;
+    Console_NS::Console con;
+    std::cout << "Test set win size:" << std::endl;
+    Debug_NS::print(con.getScreenBufferInfo(), "\tbefore: ");
+    std::cout << "\tPress key to resize " << w << 'x' << h << "..." << std::endl;
     getch();
-    con.resizeWindow(Rect(0, 0, 100, 25));
-    std::cout << "\tafter:  " << toString(con.getScreenBufferInfo()) << std::endl;
-  }
-  
-  void test_setTopWinSize(short w, short h)
-  {
-    auto top = ::GetTopWindow(NULL);
-    bool isNull = top == NULL;
-    char title[256];
-    GetWindowText(top, title, sizeof(title));
-    std::cout << "Top win title is \"" << title << "\" " << isNull << std::endl;
-    std::cout << "Press key to resize to " << w << 'x' << h << "..." << std::endl;
+    if (!con.setWinSize(w, h))
+      std::cout << "\tResize FAIL!!!" << std::endl;
+    Debug_NS::print(con.getScreenBufferInfo(), "\tafter:  ");
+    std::cout << "\tPress key to maximize window..." << std::endl;
     getch();
-    auto success = SetWindowPos(top, NULL, 0, 0, w, h, SWP_NOMOVE | SWP_NOZORDER);
-    if (!success)
-      std::cout << "resize failed" << std::endl;
+    if (!con.maximizeWin())
+      std::cout << "\tMaximize FAIL!!!" << std::endl;
+    Debug_NS::print(con.getScreenBufferInfo(), "\tmax:    ");
   }
   
   void testConsole()
@@ -80,6 +72,5 @@ namespace Test_NS
 //    testConsoleScreenfufferInfo();
 //    testManResize();
 //    testGetch();
-    testWinResize(3500, 1500);
   }
 }
