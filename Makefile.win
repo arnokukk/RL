@@ -4,8 +4,8 @@
 CPP      = g++.exe
 CC       = gcc.exe
 WINDRES  = windres.exe
-OBJ      = main.o geometry.o prints.o test_geometry.o console.o test_console.o
-LINKOBJ  = main.o geometry.o prints.o test_geometry.o console.o test_console.o
+OBJ      = main.o geometry.o prints.o test_geometry.o console.o test_console.o get_char.o
+LINKOBJ  = main.o geometry.o prints.o test_geometry.o console.o test_console.o get_char.o
 LIBS     = -L"S:/dev-cpp/MinGW64/lib" -L"S:/dev-cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc
 INCS     = -I"S:/dev-cpp/MinGW64/include" -I"S:/dev-cpp/MinGW64/x86_64-w64-mingw32/include" -I"S:/dev-cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
 CXXINCS  = -I"S:/dev-cpp/MinGW64/include" -I"S:/dev-cpp/MinGW64/x86_64-w64-mingw32/include" -I"S:/dev-cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"S:/dev-cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
@@ -41,3 +41,6 @@ console.o: console.cpp
 
 test_console.o: test_console.cpp
 	$(CPP) -c test_console.cpp -o test_console.o $(CXXFLAGS)
+
+get_char.o: get_char.cpp
+	$(CPP) -c get_char.cpp -o get_char.o $(CXXFLAGS)

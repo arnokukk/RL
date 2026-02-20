@@ -40,13 +40,16 @@ namespace Test_NS
     con.clearScreen();
   }
   
-  void testGetch()
+  void testGetch(int count/*=1*/)
   {
     Console con;
-    std::cout << "Get char test:" << std::endl;
-    std::cout << "\tpress any key..." << std::endl;
-    auto got = con.getChar();
-    std::cout << "\tkey " << got << " pressed (" << (char)got << ")" << std::endl;
+    for (int i=0; i<count; i++)
+    {
+      std::cout << "Get char test:" << std::endl;
+      std::cout << "\tpress any key..." << std::endl;
+      auto got = con.getChar();
+      std::cout << "\tkey " << got << " pressed (" << (char)got << ")" << std::endl;
+    }
   }
   
   void testWinResize(int w/*=1920*/, int h/*=1080*/)
@@ -68,9 +71,10 @@ namespace Test_NS
   
   void testConsole()
   {
-//    testClearScreen();
-//    testConsoleScreenfufferInfo();
-//    testManResize();
-//    testGetch();
+    testClearScreen();
+    testConsoleScreenfufferInfo();
+    testManResize();
+    testGetch();
+    testWinResize();
   }
 }
