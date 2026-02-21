@@ -54,19 +54,26 @@ namespace Test_NS
   
   void testWinResize(int w/*=1920*/, int h/*=1080*/)
   {
-    Console_NS::Console con;
+    Console con;
     std::cout << "Test set win size:" << std::endl;
-    Debug_NS::print(con.getScreenBufferInfo(), "\tbefore: ");
+    print(con.getScreenBufferInfo(), "\tbefore: ");
     std::cout << "\tPress key to resize " << w << 'x' << h << "..." << std::endl;
     getch();
-    if (!con.setWinSize(w, h))
+    if (!con.setWindowSize(w, h))
       std::cout << "\tResize FAIL!!!" << std::endl;
     Debug_NS::print(con.getScreenBufferInfo(), "\tafter:  ");
-    std::cout << "\tPress key to maximize window..." << std::endl;
+  }
+  
+  void testFitBuffer()
+  {
+    std::cout << "Test fit buffer window" << std::endl;
+    std::cout << "\tPress any key to fit buffer window (remove scroll bars)..." << std::endl;
+    Console con;
+    print(con.getScreenBufferInfo(), "\tbefore: ");
     getch();
-    if (!con.maximizeWin())
-      std::cout << "\tMaximize FAIL!!!" << std::endl;
-    Debug_NS::print(con.getScreenBufferInfo(), "\tmax:    ");
+    if (!con.fitBufferWindow())
+      std::cout << "\tFAIL!, error code is " << ::GetLastError();
+    print(con.getScreenBufferInfo(), "\tafter : ");
   }
   
   void testConsole()

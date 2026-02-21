@@ -72,9 +72,22 @@ namespace Console_NS
     return this->m_lastChar;
   }
   
-  bool Console::setWinSize(int width, int heigth)
+  bool Console::setWindowSize(int width, int heigth)
   {
     if (this->m_window == NULL) return false;
     return ::SetWindowPos(m_window, NULL, 0, 0, width, heigth, SWP_NOZORDER);
+  }
+  
+  bool Console::maximizeWindow()
+  {
+    return ::ShowWindow(m_window, SW_MAXIMIZE);
+  }
+  
+  bool Console::fitBufferWindow()
+  {
+    auto info = this->getScreenBufferInfo();
+    short w = 1 + info.window.br.x - info.window.tl.x, h = 1 + info.window.br.y - info.window.tl.y;
+    COORD size{w, h};
+    return ::SetConsoleScreenBufferSize(m_console, size);
   }
 }
