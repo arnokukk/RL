@@ -2,6 +2,9 @@
 
 #include <windows.h>
 #include "geometry.hpp"
+#include "colors.hpp"
+
+#include <string>
 
 
 namespace Console_NS
@@ -25,9 +28,14 @@ namespace Console_NS
     public:
       Console();
       
+      int getChar();
+      bool setCusorPosition(short row, short column);
+      bool setTextAttribute(WORD attr);
+      bool putChar(char c, short row, short col, Color attr);
+      bool putString(const std::string& s, short row, short col, Color attr);
+
       ScreenBufferInfo getScreenBufferInfo() const;
       void clearScreen(char filler=' ');
-      int getChar();
       bool setWindowSize(int width, int height);
       bool maximizeWindow();
       bool fitBufferWindow();

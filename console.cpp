@@ -5,6 +5,9 @@
 
 #include <cstdio>
 #include <stdexcept>
+#include <iostream>
+#include <random>
+#include <chrono>
 
 
 namespace
@@ -17,6 +20,17 @@ namespace
     ::SetConsoleTitle(tempTitle);
     ::Sleep(40);
     return ::FindWindow(NULL, tempTitle);
+  }
+  
+  WORD toWord(Console_NS::Color color)
+  {
+    static std::mt19937 engine(std::chrono::system_clock::now().time_since_epoch().count());
+    static std::uniform_int_distribution<unsigned short> distr(0X01, 0X0F);
+    if (color == Console_NS::Color::Random)
+    {
+      return distr(engine);
+    }
+    return static_cast<WORD>(color);
   }
 }
 
@@ -89,5 +103,34 @@ namespace Console_NS
     short w = 1 + info.window.br.x - info.window.tl.x, h = 1 + info.window.br.y - info.window.tl.y;
     COORD size{w, h};
     return ::SetConsoleScreenBufferSize(m_console, size);
+  }
+  
+  bool Console::setCusorPosition(short row, short column)
+  {
+    COORD coord{column, row};
+    return ::SetConsoleCursorPosition(m_console, coord);
+  }
+  
+  bool Console::setTextAttribute(WORD attr)
+  {
+    return ::SetConsoleTextAttribute(m_console, attr);
+  }
+  
+  bool Console::putChar(char c, short row, short col, Color color)
+  {
+    setCusorPosition(row, col);
+    std::cout << c;
+    COORD coord{col, row};
+    DWORD written{0};
+    return ::FillConsoleOutputAttribute(m_console, toWord(color), 1, coord, &written);
+  }
+
+  bool Console::putString(const std::string& s, short row, short col, Color color)
+  {
+    setCusorPosition(row, col);
+    std::cout << s;
+    COORD coord{col, row};
+    DWORD written{0};
+    return ::FillConsoleOutputAttribute(m_console, toWord(color), s.size(), coord, &written);
   }
 }
