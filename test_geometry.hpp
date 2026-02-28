@@ -2,8 +2,8 @@
 
 namespace Test_NS
 {
-  void testCoord();
-  void testRectangle();
-  void testGeometry();
+  int testCoord();
+  int testRectangle();
+  int testGeometry();
 }
 

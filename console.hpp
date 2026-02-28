@@ -29,13 +29,15 @@ namespace Console_NS
       Console();
       
       int getChar();
+      void init(const std::string& title="rl test");
       bool setCusorPosition(short row, short column);
-      bool setTextAttribute(WORD attr);
-      bool putChar(char c, short row, short col, Color attr);
-      bool putString(const std::string& s, short row, short col, Color attr);
+      bool put(char c, short row, short col, Color attr=Color::White);
+      bool put(const std::string& s, short row, short col, Color attr=Color::White);
+      bool putFitted(std::string s, short row, short col, Color attr=Color::White);
 
       ScreenBufferInfo getScreenBufferInfo() const;
       void clearScreen(char filler=' ');
+      bool setTextAttribute(WORD attr);
       bool setWindowSize(int width, int height);
       bool maximizeWindow();
       bool fitBufferWindow();
@@ -44,7 +46,5 @@ namespace Console_NS
       HANDLE m_console = NULL;
       HWND m_window = NULL;
       int m_lastChar = 0;
-      
-      static const char* TITLE;
   };
 }

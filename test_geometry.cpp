@@ -10,14 +10,15 @@ namespace Test_NS
   using namespace Debug_NS;
   using namespace Console_NS;
   
-  void testCoord()
+  int testCoord()
   {
     std::cout << "Coord test:" << std::endl;
     std::cout << "\tdefault: " << toString(Coord()) << std:: endl;
     std::cout << "\tcustom (42,69): " << toString(Coord(42, 69)) << std::endl;
+    return 0;
   }
 
-  void testRectangle()
+  int testRectangle()
   {
     std::cout << "Rectangle test:" << std::endl;
     std::cout << "\tdefault: " << toString(Rect()) << std:: endl;
@@ -25,12 +26,15 @@ namespace Test_NS
     std::cout << "\tby x, y: " << toString(Rect(1, 1, 5, 5)) << std::endl;
     Rect rect(1, 1, 5, 6);
     std::cout << "\tsize of Rect " << toString(rect) << " is " << rect.width() << 'x' << rect.height() << std::endl;
+    return 0;
   }
 
-  void testGeometry()
+  int testGeometry()
   {
-    testCoord();
-    testRectangle();
+    int result = 0;
+    result += testCoord();
+    result += testRectangle();
+    return result;
   }
 }
 

@@ -54,15 +54,12 @@ namespace Console_NS
     return ScreenBufferInfo(info);
   }
   
-  const char* Console::TITLE = "RL test";
-  
-  Console::Console() : m_console(GetStdHandle(STD_OUTPUT_HANDLE)), m_window(_getConsoleHWND())
+  Console::Console() : m_console(::GetStdHandle(STD_OUTPUT_HANDLE)), m_window(_getConsoleHWND())
   {
-    ::SetConsoleTitle(this->TITLE);
+    if (m_console == NULL)
+      throw std::runtime_error("FAIL!! m_console is NULL");
     if (m_window == NULL)
-    {
       throw std::runtime_error("FAIL!! m_window is NULL");
-    }
   }
 
   ScreenBufferInfo Console::getScreenBufferInfo() const
@@ -116,21 +113,45 @@ namespace Console_NS
     return ::SetConsoleTextAttribute(m_console, attr);
   }
   
-  bool Console::putChar(char c, short row, short col, Color color)
+  bool Console::put(char c, short row, short col, Color color/*=Color::white*/)
   {
-    setCusorPosition(row, col);
+    if (!setCusorPosition(row, col)) return false;
     std::cout << c;
     COORD coord{col, row};
     DWORD written{0};
     return ::FillConsoleOutputAttribute(m_console, toWord(color), 1, coord, &written);
   }
 
-  bool Console::putString(const std::string& s, short row, short col, Color color)
+  bool Console::put(const std::string& s, short row, short col, Color color/*=Color::white*/)
   {
-    setCusorPosition(row, col);
+    if (!setCusorPosition(row, col)) return false;
     std::cout << s;
     COORD coord{col, row};
     DWORD written{0};
     return ::FillConsoleOutputAttribute(m_console, toWord(color), s.size(), coord, &written);
+  }
+  
+  bool Console::putFitted(std::string s, short row, short col, Color attr/*=Color::White*/)
+  {
+    const auto size = this->getScreenBufferInfo().size;
+    if (col < 0) col += size.x;
+    if (row < 0) row += size.y;
+    if (!this->setCusorPosition(row, col)) return false;
+    size_t fitted = static_cast<size_t>(size.x - col); // now it's greater than zero
+    if (s.size() > fitted) s.resize(fitted);
+    std::cout << s;
+    COORD coord{col, row};
+    DWORD written{0};
+    return ::FillConsoleOutputAttribute(m_console, toWord(attr), s.size(), coord, &written);
+  }
+  
+  void Console::init(const std::string& title)
+  {
+    if (!maximizeWindow())
+      throw std::runtime_error("Console::maximizeWindow failed");
+    if (!fitBufferWindow())
+      throw std::runtime_error("Console::fitBufferWindow failed");
+    ::SetConsoleTitle(title.c_str());
+    clearScreen();
   }
 }

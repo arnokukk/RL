@@ -1,12 +1,22 @@
-#include "test_console.hpp"
+#include "game.hpp"
+#include "test.hpp"
 
+#include <string>
 
-namespace
+int main(int argc, char* argv[])
 {
-}
-
-int main()
-{
-  Test_NS::testPut();
-  return 0;
+  const std::string TEST = "test";
+  
+  if (argc == 1)
+  {
+    return Game_NS::run();
+  }
+  else if (TEST == argv[1])
+  {
+    return Test_NS::test(argc, argv);
+  }
+  else
+  {
+    return Game_NS::run(argv[1]);
+  }
 }

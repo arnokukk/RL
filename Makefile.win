@@ -4,8 +4,8 @@
 CPP      = g++.exe
 CC       = gcc.exe
 WINDRES  = windres.exe
-OBJ      = main.o geometry.o prints.o test_geometry.o console.o test_console.o get_char.o
-LINKOBJ  = main.o geometry.o prints.o test_geometry.o console.o test_console.o get_char.o
+OBJ      = main.o geometry.o prints.o test_geometry.o console.o test_console.o get_char.o game.o test.o
+LINKOBJ  = main.o geometry.o prints.o test_geometry.o console.o test_console.o get_char.o game.o test.o
 LIBS     = -L"S:/dev-cpp/MinGW64/lib" -L"S:/dev-cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc
 INCS     = -I"S:/dev-cpp/MinGW64/include" -I"S:/dev-cpp/MinGW64/x86_64-w64-mingw32/include" -I"S:/dev-cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
 CXXINCS  = -I"S:/dev-cpp/MinGW64/include" -I"S:/dev-cpp/MinGW64/x86_64-w64-mingw32/include" -I"S:/dev-cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"S:/dev-cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
@@ -44,3 +44,9 @@ test_console.o: test_console.cpp
 
 get_char.o: get_char.cpp
 	$(CPP) -c get_char.cpp -o get_char.o $(CXXFLAGS)
+
+game.o: game.cpp
+	$(CPP) -c game.cpp -o game.o $(CXXFLAGS)
+
+test.o: test.cpp
+	$(CPP) -c test.cpp -o test.o $(CXXFLAGS)
