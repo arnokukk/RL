@@ -1,5 +1,5 @@
 *.o
 *.exe
 *.gch
-*.layout
-
+rl-test.layout
+/rl-test.layout

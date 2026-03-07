@@ -54,7 +54,7 @@ namespace Game_NS
     }
   }
   
-  std::vector<Coord> Coord::makePath(const Coord& dst)
+  std::vector<Coord> Coord::makePath(const Coord& dst) const
   {
     unsigned v_dist = this->distRow(dst), h_dist = this->distCol(dst);
     std::vector<Coord> path;

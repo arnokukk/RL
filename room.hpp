@@ -14,7 +14,7 @@ namespace Game_NS
       unsigned distRow(const Coord& coord) const;
       unsigned distCol(const Coord& coord) const;
       
-      std::vector<Coord> makePath(const Coord& dst);
+      std::vector<Coord> makePath(const Coord& dst) const;
       
     private:
       void makePathH(unsigned col, std::vector<Coord>& path) const;
