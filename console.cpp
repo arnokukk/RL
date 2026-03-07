@@ -8,6 +8,7 @@
 #include <iostream>
 #include <random>
 #include <chrono>
+#include <sstream>
 
 
 namespace
@@ -87,6 +88,13 @@ namespace Console_NS
   {
     if (this->m_window == NULL) return false;
     return ::SetWindowPos(m_window, NULL, 0, 0, width, heigth, SWP_NOZORDER);
+  }
+  
+  bool Console::setConsoleSize(short width, short height)
+  {
+    std::ostringstream s;
+    s << "mode " << width << ", " << height;
+    return !::system(s.str().c_str());
   }
   
   bool Console::maximizeWindow()

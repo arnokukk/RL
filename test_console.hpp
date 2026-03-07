@@ -8,6 +8,7 @@ namespace Test_NS
   void testClearScreen();
   void testGetch(int count=1);
   int testWinResize(int w=1920, int h=1080);
+  int testSetConSize();
   int testFitBuffer();
   int testPut();
   int testChars();

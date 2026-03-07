@@ -30,5 +30,10 @@ namespace Debug_NS
     o.flags(flags);
     return o.str();
   }
+  
+  void reportFailed(const char* name, std::ostream& out/*=std::cerr*/)
+  {
+    out << name << " FAILED: " << ::GetLastError() << std::endl;
+  }
 }
 

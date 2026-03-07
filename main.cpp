@@ -1,5 +1,5 @@
 #include "game.hpp"
-#include "test.hpp"
+#include "main_fwd.hpp"
 
 #include <string>
 

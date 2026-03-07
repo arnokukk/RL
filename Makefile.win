@@ -4,12 +4,12 @@
 CPP      = g++.exe
 CC       = gcc.exe
 WINDRES  = windres.exe
-OBJ      = main.o geometry.o prints.o test_geometry.o console.o test_console.o get_char.o game.o test.o
-LINKOBJ  = main.o geometry.o prints.o test_geometry.o console.o test_console.o get_char.o game.o test.o
+OBJ      = objs/main.o objs/console.o objs/test.o objs/geometry.o objs/test_console.o objs/test_game.o objs/test_geometry.o objs/game.o objs/prints.o objs/get_char.o objs/map.o objs/room.o
+LINKOBJ  = objs/main.o objs/console.o objs/test.o objs/geometry.o objs/test_console.o objs/test_game.o objs/test_geometry.o objs/game.o objs/prints.o objs/get_char.o objs/map.o objs/room.o
 LIBS     = -L"S:/dev-cpp/MinGW64/lib" -L"S:/dev-cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc
 INCS     = -I"S:/dev-cpp/MinGW64/include" -I"S:/dev-cpp/MinGW64/x86_64-w64-mingw32/include" -I"S:/dev-cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
 CXXINCS  = -I"S:/dev-cpp/MinGW64/include" -I"S:/dev-cpp/MinGW64/x86_64-w64-mingw32/include" -I"S:/dev-cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"S:/dev-cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
-BIN      = rl-test.exe
+BIN      = bin/rl-test.exe
 CXXFLAGS = $(CXXINCS) -std=c++11 -Wall -Werror
 CFLAGS   = $(INCS) -std=c++11 -Wall -Werror
 RM       = rm.exe -f
@@ -24,29 +24,38 @@ clean: clean-custom
 $(BIN): $(OBJ)
 	$(CPP) $(LINKOBJ) -o $(BIN) $(LIBS)
 
-main.o: main.cpp
-	$(CPP) -c main.cpp -o main.o $(CXXFLAGS)
+objs/main.o: main.cpp
+	$(CPP) -c main.cpp -o objs/main.o $(CXXFLAGS)
 
-geometry.o: geometry.cpp
-	$(CPP) -c geometry.cpp -o geometry.o $(CXXFLAGS)
+objs/console.o: console.cpp
+	$(CPP) -c console.cpp -o objs/console.o $(CXXFLAGS)
 
-prints.o: prints.cpp
-	$(CPP) -c prints.cpp -o prints.o $(CXXFLAGS)
+objs/test.o: test.cpp
+	$(CPP) -c test.cpp -o objs/test.o $(CXXFLAGS)
 
-test_geometry.o: test_geometry.cpp
-	$(CPP) -c test_geometry.cpp -o test_geometry.o $(CXXFLAGS)
+objs/geometry.o: geometry.cpp
+	$(CPP) -c geometry.cpp -o objs/geometry.o $(CXXFLAGS)
 
-console.o: console.cpp
-	$(CPP) -c console.cpp -o console.o $(CXXFLAGS)
+objs/test_console.o: test_console.cpp
+	$(CPP) -c test_console.cpp -o objs/test_console.o $(CXXFLAGS)
 
-test_console.o: test_console.cpp
-	$(CPP) -c test_console.cpp -o test_console.o $(CXXFLAGS)
+objs/test_game.o: test_game.cpp
+	$(CPP) -c test_game.cpp -o objs/test_game.o $(CXXFLAGS)
 
-get_char.o: get_char.cpp
-	$(CPP) -c get_char.cpp -o get_char.o $(CXXFLAGS)
+objs/test_geometry.o: test_geometry.cpp
+	$(CPP) -c test_geometry.cpp -o objs/test_geometry.o $(CXXFLAGS)
 
-game.o: game.cpp
-	$(CPP) -c game.cpp -o game.o $(CXXFLAGS)
+objs/game.o: game.cpp
+	$(CPP) -c game.cpp -o objs/game.o $(CXXFLAGS)
 
-test.o: test.cpp
-	$(CPP) -c test.cpp -o test.o $(CXXFLAGS)
+objs/prints.o: prints.cpp
+	$(CPP) -c prints.cpp -o objs/prints.o $(CXXFLAGS)
+
+objs/get_char.o: get_char.cpp
+	$(CPP) -c get_char.cpp -o objs/get_char.o $(CXXFLAGS)
+
+objs/map.o: map.cpp
+	$(CPP) -c map.cpp -o objs/map.o $(CXXFLAGS)
+
+objs/room.o: room.cpp
+	$(CPP) -c room.cpp -o objs/room.o $(CXXFLAGS)

@@ -206,4 +206,21 @@ namespace Test_NS
     testGetch();
     testWinResize();
   }
+  
+  int testSetConSize()
+  {
+    Console con;
+    const auto bInfo = con.getScreenBufferInfo();
+    if (con.setConsoleSize(20, 30))
+    {
+      print(bInfo, "before ");
+      print(con.getScreenBufferInfo(), "after  ");
+      return 0;
+    }
+    else
+    {
+      reportFailed("Console::SetConsoleSize");
+      return 1;
+    }
+  }
 }

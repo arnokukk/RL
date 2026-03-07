@@ -17,4 +17,6 @@ namespace Debug_NS
   {
     std::cout << prefix << toString(value) << std::endl;
   }
+  
+  void reportFailed(const char* name, std::ostream& out=std::cerr);
 }

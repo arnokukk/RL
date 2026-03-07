@@ -39,6 +39,7 @@ namespace Console_NS
       void clearScreen(char filler=' ');
       bool setTextAttribute(WORD attr);
       bool setWindowSize(int width, int height);
+      bool setConsoleSize(short width, short height);
       bool maximizeWindow();
       bool fitBufferWindow();
     
