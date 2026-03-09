@@ -7,6 +7,7 @@
 #include "console.hpp"
 
 #include <iostream>
+#include <chrono>
 
 namespace Test_NS
 {
@@ -46,31 +47,23 @@ namespace Test_NS
   
   int testPlacer()
   {
+    const unsigned rooms = 40;
     Console_NS::Console con;
     con.init("test map with rectangle rooms");
-    auto size = con.getScreenBufferInfo().size;
+    const auto size = con.getScreenBufferInfo().size;
     const unsigned ROWS = size.y - 10, COLS = size.x - 1;
-    const unsigned ROOMS = 25, MIN_SIZE = 5, RATIO = 6;//, PATHS = 2;
-    Map map = Map::walls(COLS, ROWS, true);
-    RoomPlacer placer(map.size());
-    placer.createRooms(ROOMS, MIN_SIZE, RATIO);
-    //placer.createPaths(PATHS);
-    placer.placeRooms(map, true);
-    //placer.placePaths(map, true);
+    using namespace std::chrono;
+    const auto start = high_resolution_clock::now();
+    auto map = RoomPlacer::createMap(Coord(ROWS, COLS), rooms, true);
+    const auto generated = high_resolution_clock::now();
     map.display();
-    std::cout << '\t' << Debug_NS::toString(map.size()) << " map with " << placer.roomQty() << " rectangle rooms" <<
-      std::endl << '\t' << placer.connectedQty() << " rooms connected of " << placer.roomQty() << std::endl;
+    const auto displayed = high_resolution_clock::now();
+    std::cout << '\t' << Debug_NS::toString(map.size()) << " map with " << rooms << " rectangle rooms" << std::endl;
+    const auto gen_ms = duration_cast<milliseconds>(generated - start).count();
+    const auto dis_ms = duration_cast<milliseconds>(displayed - generated).count();
+    std::cout << "\tgeneration time: " << gen_ms << "ms, display time: " << dis_ms << "ms" << std::endl;
     con.putFitted("Press any key...", -2, 8);
     con.getChar();
-    con.clearScreen();
-    {
-      unsigned rooms = 30;
-      auto map = RoomPlacer::createMap(Coord(ROWS, COLS), rooms, true);
-      map.display();
-      std::cout << '\t' << Debug_NS::toString(map.size()) << " map with " << rooms << " rectangle rooms" << std::endl;
-      con.putFitted("Press any key...", -2, 8);
-      con.getChar();
-    }
     return 0;
   }
 }
