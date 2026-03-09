@@ -1,3 +1,5 @@
+#pragma once
+
 namespace Console_NS
 {
   struct Coord;

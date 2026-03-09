@@ -4,6 +4,7 @@
 #include <string>
 
 #include "console_fwd.hpp"
+#include "game_fwd.hpp"
 
 
 namespace Debug_NS
@@ -11,6 +12,8 @@ namespace Debug_NS
   std::string toString(const Console_NS::Coord& coord);
   std::string toString(const Console_NS::Rect& rect);
   std::string toString(const Console_NS::ScreenBufferInfo& info);
+  std::string toString(const Game_NS::Coord& coord);
+  std::string toString(const Game_NS::Room& room);
 
   template<typename T>
   void print(const T& value, const char* prefix="")

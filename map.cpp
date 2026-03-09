@@ -1,4 +1,5 @@
 #include "map.hpp"
+#include "room.hpp"
 
 #include <random>
 #include <chrono>
@@ -40,6 +41,11 @@ namespace Game_NS
   }
   
   size_t CellsRow::width() const { return m_width; }
+  
+  Cell::ptr& CellsRow::get(unsigned col)
+  {
+    return cells[col];
+  }
   
   const Cell& CellsRow::operator[](int index) const
   {
@@ -87,6 +93,21 @@ namespace Game_NS
   Map::~Map()
   {
     delete[] rows;
+  }
+  
+  Coord Map::size() const
+  {
+    return Coord(m_height, m_width);
+  }
+  
+  CellsRow::ptr& Map::get(unsigned row)
+  {
+    return rows[row];
+  }
+  
+  Cell::ptr& Map::get(unsigned row, unsigned col)
+  {
+    return get(row)->get(col);
   }
   
   const CellsRow& Map::operator[](int index) const

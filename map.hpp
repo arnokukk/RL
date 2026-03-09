@@ -3,6 +3,8 @@
 
 namespace Game_NS
 {
+  class Coord;
+  
   class Cell
   {
     public:
@@ -40,7 +42,7 @@ namespace Game_NS
       
       std::string str() const;
       size_t width() const;
-      Cell::ptr& get(int index);
+      Cell::ptr& get(unsigned col);
       const Cell& operator[](int index) const;
       static CellsRow::ptr border(size_t width, bool visible=true); // all 3 next can crash with width < 2
       static CellsRow::ptr empty(size_t width, bool visible=true);
@@ -59,9 +61,18 @@ namespace Game_NS
     Map(const Map&) = delete;
     Map(Map&&) = default;
     ~Map();
+    
+    Coord size() const;
     void display();
-    CellsRow::ptr& get(int index);
+    CellsRow::ptr& get(unsigned row);
+    Cell::ptr& get(unsigned row, unsigned col);
     const CellsRow& operator[](int index) const;
+
+    template <typename T, typename std::enable_if<std::is_base_of<Cell, T>::value>::type* = nullptr>
+    void place(unsigned row, unsigned col, bool visible=false)
+    {
+      get(row, col).reset(new T(visible));
+    }
 
     static Map empty(size_t width, size_t height, bool visible=false);
     static Map walls(size_t width, size_t height, bool visible=false);
@@ -72,24 +83,5 @@ namespace Game_NS
     size_t m_width=0, m_height=0;
     CellsRow::ptr* rows;
   };
-  
-//  struct Coord
-//  {
-//    size_t row=0, col=0;
-//    Coord(size_t row, size_t column);
-//    int dist(const Coord& coord);
-//    int distR(const Coord& coord);
-//    int distC(const Coord& coord);
-//  };
-//
-//  class Room
-//  {
-//    public:
-//      static const Coord MIN_SIZE;
-//      Room(int top, int left, int width, int height);
-//      int centroid() const;
-//    private:
-//      Coord tl, size;
-//  };
 }
 

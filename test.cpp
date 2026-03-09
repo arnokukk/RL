@@ -1,6 +1,7 @@
 #include "test_geometry.hpp"
 #include "test_console.hpp"
 #include "test_game.hpp"
+#include "test_room.hpp"
 #include "prints.hpp"
 
 #include <windows.h>
@@ -9,6 +10,7 @@
 #include <conio.h>
 #include <string>
 #include <stdexcept>
+#include <memory>
 
 namespace Test_NS
 {
@@ -18,6 +20,8 @@ namespace Test_NS
     getch();
     return 0;
   }
+  
+  int testExp();
   
   int test_single(const std::string& testName)
   {
@@ -49,6 +53,12 @@ namespace Test_NS
       return testGameCoord();
     else if (testName == "path")
       return testPath();
+    else if (testName == "room")
+      return testRoom();
+    else if (testName == "placer")
+      return testPlacer();
+    else if (testName == "exp")
+      return testExp();
     else
     {
       std::cout << "Run test" << testName << std::endl;
@@ -105,6 +115,40 @@ namespace Test_NS
     ::WaitForSingleObject(pInfo.hProcess, 0);
     ::CloseHandle(pInfo.hProcess);
     ::CloseHandle(pInfo.hThread);
+    return 0;
+  }
+  
+  struct A
+  {
+    virtual void foo() = 0;
+    virtual ~A() = default;
+  };
+  struct B : public A
+  {
+    void foo() { std::cout << 'B' << std::endl; }
+  };
+  struct C : public A
+  {
+    void foo() { std::cout << 'C' << std::endl; }
+  };
+  struct D
+  {
+    void foo() { std::cout << 'D' << std::endl; }
+  };
+  
+  template <typename T, typename std::enable_if<std::is_base_of<A, T>::value>::type* = nullptr>
+  void foo()
+  {
+    std::unique_ptr<T> val(new T);
+    val->foo();
+  }
+
+  int testExp()
+  {
+    //foo<A>();
+    foo<B>();
+    foo<C>();
+    //foo<D>();
     return 0;
   }
 }

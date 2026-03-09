@@ -1,6 +1,9 @@
 #include "room.hpp"
 
 #include <cmath>
+#include <chrono>
+#include <random>
+#include <stdexcept>
 
 namespace Game_NS
 {
@@ -75,6 +78,84 @@ namespace Game_NS
       path.back().makePathV(dst.row(), path);
     }
     return path;
+  }
+  
+  // class Room
+  Room::Room(const Coord& position, const Coord& size)
+    : m_pos(position), m_size(size)
+  {
+  }
+  
+  const Coord& Room::position() const
+  {
+    return m_pos;
+  }
+  
+  const Coord& Room::size() const
+  {
+    return m_size;
+  }
+  
+  Coord Room::centroid() const
+  {
+    unsigned row = m_pos.row() + m_size.row() / 2, col = m_pos.col() + m_size.col() / 2;
+    return Coord(row, col);
+  }
+  
+  Coord::Path Room::makePath(const Coord& coord) const
+  {
+    if (this->isInside(coord)) return Coord::Path();
+    return this->centroid().makePath(coord);
+  }
+
+  Coord::Path Room::makePath(const Room& room) const
+  {
+    if (this->intersects(room)) return Coord::Path();
+    return this->centroid().makePath(room.centroid());
+  }
+  
+  bool Room::isInside(const Coord& coord) const
+  {
+    bool _col = coord.col() >= m_pos.col() && coord.col() < m_pos.col() + m_size.col();
+    bool _row = coord.row() >= m_pos.row() && coord.row() < m_pos.row() + m_size.row();
+    return _col && _row;
+  }
+  
+  bool Room::intersects(const Room& room) const
+  {
+    unsigned tTop = m_pos.row(), oTop = room.m_pos.row();
+    unsigned tBot = m_pos.row() + m_size.row(), oBot = room.m_pos.row() + room.m_size.row();
+    if (tTop >= oBot || oTop >= tBot) return false;
+    unsigned tLeft = m_pos.col(), oLeft = room.m_pos.col();
+    unsigned tRight = m_pos.col() + m_size.col(), oRight = room.m_pos.col() + room.m_size.col();
+    if (tLeft >= oRight || oLeft >= tRight) return false;
+    return true;
+  }
+  
+  Room Room::random(const Coord& mapSize, unsigned minSize, unsigned ratio)
+  {
+    static const unsigned MIN_POS = 1;
+    static std::mt19937 gen((unsigned)std::chrono::system_clock::now().time_since_epoch().count());
+
+    const unsigned MAX_ROWS = mapSize.row() / ratio;
+    const unsigned MAX_COLS = mapSize.col() / ratio;
+    if (MAX_ROWS <= minSize || MAX_COLS <= minSize)
+      throw std::runtime_error("Too small map to place room");
+    
+    std::uniform_int_distribution<unsigned> dSizeR(minSize, MAX_ROWS);
+    std::uniform_int_distribution<unsigned> dSizeC(minSize, MAX_COLS);
+    Coord size(dSizeR(gen), dSizeC(gen));
+    
+    const unsigned MAX_POS_ROW = mapSize.row() - size.row() - 1;
+    const unsigned MAX_POS_COL = mapSize.col() - size.col() - 1;
+    if (MAX_POS_ROW <= MIN_POS || MAX_POS_COL <= MIN_POS)
+      throw std::runtime_error("Too small map to place room");
+
+    std::uniform_int_distribution<unsigned> dPosR(MIN_POS, MAX_POS_ROW);
+    std::uniform_int_distribution<unsigned> dPosC(MIN_POS, MAX_POS_COL);
+    Coord pos(dPosR(gen), dPosC(gen));
+
+    return Room(pos, size);
   }
 }
 

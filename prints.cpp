@@ -3,6 +3,7 @@
 #include "prints.hpp"
 #include "geometry.hpp"
 #include "console.hpp"
+#include "room.hpp"
 
 namespace Debug_NS
 {
@@ -30,6 +31,22 @@ namespace Debug_NS
     o.flags(flags);
     return o.str();
   }
+  
+  std::string toString(const Game_NS::Coord& coord)
+  {
+    std::ostringstream o;
+    o << coord.row() << 'x' << coord.col();
+    return o.str();
+  }
+
+
+  std::string toString(const Game_NS::Room& room)
+  {
+    std::ostringstream o;
+    o << "Room: P" << toString(room.position()) << " S" << toString(room.size());
+    return o.str();
+  }
+
   
   void reportFailed(const char* name, std::ostream& out/*=std::cerr*/)
   {

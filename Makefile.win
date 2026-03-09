@@ -4,8 +4,8 @@
 CPP      = g++.exe
 CC       = gcc.exe
 WINDRES  = windres.exe
-OBJ      = objs/main.o objs/console.o objs/test.o objs/geometry.o objs/test_console.o objs/test_game.o objs/test_geometry.o objs/game.o objs/prints.o objs/get_char.o objs/map.o objs/room.o
-LINKOBJ  = objs/main.o objs/console.o objs/test.o objs/geometry.o objs/test_console.o objs/test_game.o objs/test_geometry.o objs/game.o objs/prints.o objs/get_char.o objs/map.o objs/room.o
+OBJ      = objs/main.o objs/console.o objs/test.o objs/geometry.o objs/test_console.o objs/test_game.o objs/test_geometry.o objs/game.o objs/prints.o objs/get_char.o objs/map.o objs/room.o objs/test_room.o objs/room_placer.o
+LINKOBJ  = objs/main.o objs/console.o objs/test.o objs/geometry.o objs/test_console.o objs/test_game.o objs/test_geometry.o objs/game.o objs/prints.o objs/get_char.o objs/map.o objs/room.o objs/test_room.o objs/room_placer.o
 LIBS     = -L"S:/dev-cpp/MinGW64/lib" -L"S:/dev-cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc
 INCS     = -I"S:/dev-cpp/MinGW64/include" -I"S:/dev-cpp/MinGW64/x86_64-w64-mingw32/include" -I"S:/dev-cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
 CXXINCS  = -I"S:/dev-cpp/MinGW64/include" -I"S:/dev-cpp/MinGW64/x86_64-w64-mingw32/include" -I"S:/dev-cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"S:/dev-cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
@@ -59,3 +59,9 @@ objs/map.o: map.cpp
 
 objs/room.o: room.cpp
 	$(CPP) -c room.cpp -o objs/room.o $(CXXFLAGS)
+
+objs/test_room.o: test_room.cpp
+	$(CPP) -c test_room.cpp -o objs/test_room.o $(CXXFLAGS)
+
+objs/room_placer.o: room_placer.cpp
+	$(CPP) -c room_placer.cpp -o objs/room_placer.o $(CXXFLAGS)

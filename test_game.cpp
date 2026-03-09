@@ -59,7 +59,11 @@ namespace Test_NS
       const auto start = high_resolution_clock::now();
       Map map = Map::walls(w, h, true);
       const auto generated = high_resolution_clock::now();
-//      map.display();
+      map.place<Floor>(2, 2, true);
+      map.place<Floor>(2, 3, true);
+      map.place<Floor>(3, 2, true);
+      map.place<Wall>(2, 2, true);
+      map.display();
       const auto displayed = high_resolution_clock::now();
       const auto gen_time = duration_cast<milliseconds>(generated - start);
       const auto dis_time = duration_cast<milliseconds>(displayed - generated);

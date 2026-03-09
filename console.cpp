@@ -19,7 +19,7 @@ namespace
     char tempTitle[SIZE];
     std::sprintf(tempTitle, "%lu/%lu", ::GetTickCount(), ::GetCurrentProcessId());
     ::SetConsoleTitle(tempTitle);
-    ::Sleep(40);
+    ::Sleep(50);
     return ::FindWindow(NULL, tempTitle);
   }
   
