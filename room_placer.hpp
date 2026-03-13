@@ -1,5 +1,6 @@
 #pragma once
 #include "room.hpp"
+#include "map.hpp"
 
 #include <vector>
 #include <map>
@@ -7,21 +8,26 @@
 
 namespace Game_NS
 {
-  class Map;
+  struct MapR
+  {
+    MapR(const Coord& size, bool visible=false);
+    MapR(const MapR&) = delete;
+    MapR(MapR&&) = default;
+    Map map;
+    std::vector<Room> rooms;
+  };
   
   class RoomPlacer
   {
     public:
       RoomPlacer(const Coord& mapSize);
-      unsigned roomQty() const;
-      unsigned connectedQty() const;
-      
-      static Map createMap(const Coord& size, unsigned rooms, bool visible=false,
-                           unsigned minSize=3, unsigned paths=2, unsigned ratio=7);
+     
+      static MapR createMap(const Coord& size, unsigned rooms, bool visible=false,
+                            unsigned minSize=3, unsigned paths=2, unsigned ratio=7);
+      const std::vector<Room>& rooms() const;
       
       void createRooms(unsigned quantity, unsigned minSize, unsigned ratio);
       void createPaths(unsigned perRoom);
-      void closeConnectivity();
       
       void placeRooms(Map& map, bool visible=false);
       void placePaths(Map& map, bool visible=false);
@@ -31,9 +37,6 @@ namespace Game_NS
       void createPath(const Room& src, const Room& dst);
       const Room* findClosestNotConnectedWith(const Room& room);
       const Room* findClosestNotConnected(const Room& room);
-//      bool connected(const Room& room);
-//      void updateConnectivity(unsigned count=1);
-//      void updateConnectivity(const Room& room);
     private:
       Coord m_mapSize;
       std::vector<Room> m_rooms;

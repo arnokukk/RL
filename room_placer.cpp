@@ -10,18 +10,14 @@
 
 namespace Game_NS
 {
+  // class MapR =======================================================================================================
+  MapR::MapR(const Coord& size, bool visible/*=false*/) : map(Map::walls(size.col(), size.row(), visible))
+  {
+  }
+  
+  // class RoomPlacer =================================================================================================
   RoomPlacer::RoomPlacer(const Coord& mapSize) : m_mapSize(mapSize)
   {
-  }
-  
-  unsigned RoomPlacer::roomQty() const
-  {
-    return m_rooms.size();
-  }
-  
-  unsigned RoomPlacer::connectedQty() const
-  {
-    return m_connected.size();
   }
   
   void RoomPlacer::createRoom(unsigned minSize, unsigned ratio)
@@ -100,14 +96,12 @@ namespace Game_NS
     m_connected.insert(&m_rooms.front());
 
     const auto* src = &m_rooms.front();
-    const auto* dst = src;
-    while (dst != nullptr)
+    while (true)
     {
-      dst = this->findClosestNotConnected(*src);
-      if (dst)
-      {
-        this->createPath(*src, *dst);
-      }
+      const auto* dst = this->findClosestNotConnected(*src);
+      if (!dst) break;
+      this->createPath(*src, *dst);
+      src = dst;
     }
 
     for (unsigned i=1; i<perRoom; i++)
@@ -152,7 +146,7 @@ namespace Game_NS
     }
   }
 
-  void RoomPlacer::placePaths(Map& map, bool visible/*=false*/)
+  void RoomPlacer::placePaths(Map& map, bool visible/*=false*/)//
   {
     for (const auto& path: m_paths)
     {
@@ -160,15 +154,21 @@ namespace Game_NS
     }
   }
   
-  Map RoomPlacer::createMap(const Coord& size, unsigned rooms, bool visible/*=false*/,
+  MapR RoomPlacer::createMap(const Coord& size, unsigned rooms, bool visible/*=false*/,
                             unsigned minSize/*=3*/, unsigned paths/*=2*/, unsigned ratio/*=7*/)
   {
-    Map map = Map::walls(size.col(), size.row(), visible);
-    RoomPlacer placer(map.size());
+    MapR map(size, visible);
+    RoomPlacer placer(size);
     placer.createRooms(rooms, minSize, ratio);
-    placer.placeRooms(map, visible);
+    placer.placeRooms(map.map, visible);
     placer.createPaths(paths);
-    placer.placePaths(map, visible);
+    placer.placePaths(map.map, visible);
+    map.rooms = placer.rooms();
     return map;
+  }
+  
+  const std::vector<Room>& RoomPlacer::rooms() const
+  {
+    return m_rooms;
   }
 }

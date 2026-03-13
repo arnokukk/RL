@@ -24,12 +24,12 @@ HostApplication=
 UseCustomMakefile=0
 CustomMakefile=
 CommandLine=
-Folders=console,map,tests
+Folders=console,game,map,tests
 IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=0
 CompilerSettings=00000000c0000000000000000
-UnitCount=30
+UnitCount=31
 
 [VersionInfo]
 Major=1
@@ -344,6 +344,16 @@ BuildCmd=
 FileName=room_placer.cpp
 CompileCpp=1
 Folder=map
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit31]
+FileName=hero.hpp
+CompileCpp=1
+Folder=game
 Compile=1
 Link=1
 Priority=1000
